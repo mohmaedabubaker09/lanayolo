@@ -12,9 +12,7 @@ pipeline {
             steps {
                 script {
                     sh "aws ecr get-login-password --region eu-west-2 | docker login --username AWS --password-stdin ${ECR_REGISTRY}"
-                    dockerImage = docker.build("${ECR_REGISTRY}/lana_yolo5_container:${IMAGE_TAG}")
-                    // dockerImage = docker.build("lana_yolo5_container", "--no-cache .")
-                    // dockerImage.tag("${ECR_REGISTRY}/lana_yolo5_container:${IMAGE_TAG}")
+                    dockerImage = docker.build("${ECR_REGISTRY}/lana_yolo5_container:${IMAGE_TAG}", "--no-cache .")
                     dockerImage.push()
                 }
             }
