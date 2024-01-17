@@ -23,8 +23,7 @@ pipeline {
     post {
         always {
             sh '''
-                # docker rmi $(docker images -q) -f
-                sh "docker image prune -f"
+                docker rmi $(docker images -q) -f
             '''
         }
     }
