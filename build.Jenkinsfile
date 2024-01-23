@@ -41,9 +41,9 @@ pipeline {
                         withCredentials([file(credentialsId: 'KUBE_CONFIG_CRED', variable: 'KUBECONFIG')]) {
 //                             sh 'aws eks --region us-east-1 update-kubeconfig --name k8s-main'
 //                             sh 'kubectl config set-context --current --namespace=lanabot-dev-ns'
-                            sh "sed -i 's|image: .*|image: ${ECR_REGISTRY}/lana_yolo5_container:${IMAGE_TAG}|' lanayolo.yaml"
-                            sh "cat lanayolo.yaml"
-                            sh 'kubectl apply -f lanayolo.yaml' //--validate=false'
+                            sh "sed -i 's|image: .*|image: ${ECR_REGISTRY}/lana_yolo5_container:${IMAGE_TAG}|' lanayolo-autoscaling-deployment.yaml"
+//                             sh "cat lanayolo-autoscaling-deployment.yaml"
+                            sh 'kubectl apply -f lanayolo-autoscaling-deployment.yaml' //--validate=false'
                         }
                     }
                 }

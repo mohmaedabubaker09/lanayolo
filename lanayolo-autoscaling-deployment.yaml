@@ -1,0 +1,53 @@
+# lanayolo5-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lana-yolo-deployment
+  namespace: lanabot-dev-ns
+  labels:
+    project: lanabot-project
+    env: dev
+    release: v1.0
+spec:
+  replicas: 1  # Adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: lana-yolo
+  template:
+    metadata:
+      labels:
+        app: lana-yolo
+    spec:
+      containers:
+      - name: lana-yolo-docker-container
+        image: lanayolo_image:tag
+        resources:
+          limits:
+            cpu: 500m  # Adjust the CPU limit as needed
+          requests:
+            cpu: 200m  # Adjust the CPU request as needed
+
+---
+
+# lanayolo5-hpa.yaml
+
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: lana-yolo-hpa
+  namespace: lanabot-dev-ns
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: lana-yolo-deployment
+  minReplicas: 1  # Minimum number of replicas
+  maxReplicas: 5  # Maximum number of replicas
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50  # Target CPU utilization percentage
