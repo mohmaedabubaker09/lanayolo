@@ -3,6 +3,10 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: lana-yolo-hpa
   namespace: lanabot-dev-ns
+  labels:
+    project: lanabot-project
+    env: dev
+    release: v1.0
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
