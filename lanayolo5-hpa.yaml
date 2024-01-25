@@ -4,7 +4,7 @@ metadata:
   name: lana-yolo-hpa
   namespace: lanabot-dev-ns
   labels:
-    microservice: lana-yolo
+    app: lana-yolo
     project: lanabot-project
     env: dev
     release: v1.0
