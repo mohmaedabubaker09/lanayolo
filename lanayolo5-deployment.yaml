@@ -16,6 +16,9 @@ spec:
     metadata:
       labels:
         app: lana-yolo
+        project: lanabot-project
+        env: dev
+        release: v1.0
     spec:
       containers:
       - name: lana-yolo-docker-container
