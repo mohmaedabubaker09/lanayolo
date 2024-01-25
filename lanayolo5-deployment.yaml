@@ -12,11 +12,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: lana-yolo
+      microservice: lana-yolo
   template:
     metadata:
       labels:
-        app: lana-yolo
+        microservice: lana-yolo
         project: lanabot-project
         env: dev
         release: v1.0
