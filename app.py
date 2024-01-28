@@ -57,11 +57,13 @@ ready_and_live = False
 
 @app.route("/health")
 def health_check():
-    global ready_and_live
-    if ready_and_live:
-        return "App is running and ready", 200
-    else:
-        return "App is initializing", 202
+    return 'Ok'
+
+    # global ready_and_live
+    # if ready_and_live:
+    #     return "App is running and ready", 200
+    # else:
+    #     return "App is initializing", 202
 
 def consume():
     global prediction_summary
