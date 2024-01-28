@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: lana-yolo-docker-container
-        image: lanayolo_img:tag
+        image: lanayolo_image:tag
         resources:
           limits:
             cpu: 100m
@@ -31,15 +31,3 @@ spec:
           requests:
             cpu: 100m
             memory: 100Mi
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 5000
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 5000
-          initialDelaySeconds: 10
-          periodSeconds: 20
