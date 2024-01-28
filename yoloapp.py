@@ -9,8 +9,7 @@ import json
 import requests
 from botocore.exceptions import BotoCoreError, ClientError
 from decimal import Decimal
-import threading
-from flask import Flask, request
+
 
 prediction_summary = ''
 dbresponse = ''
@@ -51,25 +50,10 @@ s3_client = boto3.client('s3', aws_access_key_id=s3_access_key, aws_secret_acces
 with open("data/coco128.yaml", "r") as stream:
     names = yaml.safe_load(stream)['names']
 
-app = Flask(__name__)
-
-ready_and_live = False
-
-@app.route("/health")
-def health_check():
-    global ready_and_live
-    if ready_and_live:
-        return "App is running and ready", 200
-    else:
-        return "App is initializing", 202
 
 def consume():
     global prediction_summary
     global dbresponse
-    global ready_and_live
-
-    ready_and_live = True
-
     while True:
 
         response = sqs_client.receive_message(QueueUrl=queue_name, MaxNumberOfMessages=1, WaitTimeSeconds=5)
@@ -78,7 +62,7 @@ def consume():
             message_body = response['Messages'][0]['Body']
             receipt_handle = response['Messages'][0]['ReceiptHandle']
             prediction_id = response['Messages'][0]['MessageId']
-            # logger.info(f"\n\n======== Received prediction_id in yolo5 from telegram:{prediction_id} ==========\n\n")
+            # logger.info(f"\n\n======== Received predction_id in yolo5 from telegram:{prediction_id} ==========\n\n")
 
             # logger.info(f'prediction: {prediction_id}. start processing')
 
@@ -230,8 +214,4 @@ def consume():
                 logger.info(f"An error occurred: {error}")
 
 if __name__ == "__main__":
-    consume_thread = threading.Thread(target=consume)
-    consume_thread.start()
-    app.run(host="0.0.0.0", port=5000)
-
-    # consume()
+    consume()
