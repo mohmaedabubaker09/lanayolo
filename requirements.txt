@@ -7,7 +7,6 @@ matplotlib
 boto3
 openai
 Pillow
-botocore
 decimal
 json
 pathlib
