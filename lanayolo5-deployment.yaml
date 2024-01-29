@@ -2,22 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: lana-yolo-deployment
-  namespace: lanabot-dev-ns
+  namespace: lanabot-ns
   labels:
-    microservice: lana-yolo
-    project: lanabot-project
+    app: lana-yolo
     env: dev
     release: v1.0
 spec:
   replicas: 1
   selector:
     matchLabels:
-      microservice: lana-yolo
+      app: lana-yolo
   template:
     metadata:
       labels:
-        microservice: lana-yolo
-        project: lanabot-project
+        app: lana-yolo
         env: dev
         release: v1.0
     spec:
