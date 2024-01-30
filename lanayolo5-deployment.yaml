@@ -24,8 +24,8 @@ spec:
         image: lanayolo_image:tag
         resources:
           limits:
-            cpu: 200m
-            memory: 200Mi
+            cpu: 500m
+            memory: 500Mi
           requests:
-            cpu: 200m
-            memory: 200Mi
+            cpu: 500m
+            memory: 500Mi
