@@ -46,10 +46,7 @@ pipeline {
                     withCredentials([aws(credentialsId: AWS_CREDENTIALS_ID, accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                         sh 'aws eks update-kubeconfig --region ${CLUSTER_REGION} --name ${CLUSTER_NAME}'
                         withCredentials([file(credentialsId: 'KUBE_CONFIG_CRED', variable: 'KUBECONFIG')]) {
-//                             sh 'aws eks --region us-east-1 update-kubeconfig --name k8s-main'
-//                             sh 'kubectl config set-context --current --namespace=lanabot-dev-ns'
                             sh "sed -i 's|image: .*|image: ${ECR_REGISTRY}/lana_yolo5_container:${IMAGE_TAG}|' lanayolo5-deployment.yaml"
-//                             sh "cat lanayolo5-deployment.yaml"
 //                             sh 'kubectl apply -f lanayolo5-deployment.yaml' //--validate=false'
                         }
                     }
