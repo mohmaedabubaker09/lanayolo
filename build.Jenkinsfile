@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([aws(credentialsId: AWS_CREDENTIALS_ID, accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                        sh 'aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}'
+                        // sh 'aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}'
                     }
                 }
             }
@@ -44,7 +44,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([aws(credentialsId: AWS_CREDENTIALS_ID, accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                        sh 'aws eks update-kubeconfig --region ${CLUSTER_REGION} --name ${CLUSTER_NAME}'
+                        // sh 'aws eks update-kubeconfig --region ${CLUSTER_REGION} --name ${CLUSTER_NAME}'
                         withCredentials([file(credentialsId: 'KUBE_CONFIG_CRED', variable: 'KUBECONFIG')]) {
                             sh "sed -i 's|image: .*|image: ${ECR_REGISTRY}/lana_yolo5_container:${IMAGE_TAG}|' lanayolo5-deployment.yaml"
 //                             sh 'kubectl apply -f lanayolo5-deployment.yaml' //--validate=false'
