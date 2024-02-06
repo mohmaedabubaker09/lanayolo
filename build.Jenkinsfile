@@ -1,3 +1,10 @@
+def gitCredentials
+
+withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+    gitCredentials = "${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com"
+}
+
+
 pipeline {
     agent any
 
@@ -46,6 +53,43 @@ pipeline {
                             sh 'kubectl apply -f lanayolo5-deployment.yaml' //--validate=false'
                         }
                     }
+                }
+            }
+        }
+
+        stage('Copy File to Agent') {
+            steps {
+                stash(name: 'yamlFile', includes: 'lanayolo5-deployment.yaml')
+            }
+        }
+
+        stage('Deploy on Agent') {
+
+            agent {
+                label 'K8s_repo_agent'
+            }
+
+            steps {
+                unstash 'yamlFile'
+                echo "Git Credentials: ${gitCredentials}"
+
+                script {
+                    def directory = 'lanabot-k8s'
+                    if (fileExists(directory)) {
+                        sh "rm -rf ${directory}"
+                    } else {
+                        echo "Directory ${directory} does not exist. Skipping removal."
+                    }
+                }
+
+                sh "git clone https://${gitCredentials}/mohmaedabubaker09/lanabot-k8s.git"
+                sh "cp lanayolo5-deployment.yaml lanabot-k8s/"
+                dir("lanabot-k8s") {
+                    sh "git add ."
+                    sh "git config user.email 'mohmaedabubaker09@gmail.com'"
+                    sh "git config user.name 'mohmaedabubaker09'"
+                    sh "git commit -m 'Add lana-bot-deployment.yaml'"
+                    sh "git push origin main"
                 }
             }
         }
