@@ -50,7 +50,7 @@ pipeline {
 //                             sh 'kubectl config set-context --current --namespace=lanabot-dev-ns'
                             sh "sed -i 's|image: .*|image: ${ECR_REGISTRY}/lana_yolo5_container:${IMAGE_TAG}|' lanayolo5-deployment.yaml"
 //                             sh "cat lanayolo5-deployment.yaml"
-                            sh 'kubectl apply -f lanayolo5-deployment.yaml' //--validate=false'
+//                             sh 'kubectl apply -f lanayolo5-deployment.yaml' //--validate=false'
                         }
                     }
                 }
